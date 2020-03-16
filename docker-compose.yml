@@ -1,0 +1,26 @@
+version: "2"
+services:
+    express: #name of the second service
+        build: node-express-demo # specify the directory of the Dockerfile
+        ports:
+            - "3000:3000" #specify ports forewarding
+        links:
+            - db
+        environment: 
+            - POSTGRE_DB_HOST: db
+    db:
+        image: "postgres:9.5.18"
+        container_name: "postgres"
+        ports:
+            - "5432:5432"
+        volumes:
+            - emp:/var/lib/postgresql/data
+        environment: 
+            - POSTGRES_USER: postgres
+            - POSTGRES_PASSWORD: admin
+            # - POSTGRES_DB: emp
+            # - POSTGRES_HOST_AUTH_METHOD: trust
+        expose: 
+            - 5432
+volumes:
+    emp:
